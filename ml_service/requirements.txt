@@ -1,0 +1,11 @@
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+scikit-learn==1.4.0
+numpy==1.26.3
+joblib==1.3.2
+pydantic==2.5.3
+python-multipart==0.0.6
+httpx==0.26.0
+# Optional: for BERT-based model upgrade
+# transformers==4.37.0
+# torch==2.1.2
