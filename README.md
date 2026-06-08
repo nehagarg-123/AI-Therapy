@@ -1,9 +1,9 @@
-# 🌿 MindEase — AI Mental Health Therapist
+#  MindEase — AI Mental Health Therapist
 ### Full-Stack 4th Year Project | Node.js + React + Python ML + MongoDB
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 mindease/
@@ -57,7 +57,7 @@ mindease/
 
 ---
 
-## 🚀 Setup Guide
+##  Setup Guide
 
 ### Prerequisites
 - Node.js 18+
@@ -149,12 +149,12 @@ Open: **http://localhost:3000**
 ### Auth (`/api/auth`)
 | Method | Route              | Description       | Auth |
 |--------|--------------------|-------------------|------|
-| POST   | `/register`        | Create account    | ❌   |
-| POST   | `/login`           | Login             | ❌   |
-| POST   | `/refresh-token`   | Refresh JWT       | ❌   |
-| POST   | `/logout`          | Logout            | ✅   |
-| GET    | `/me`              | Get current user  | ✅   |
-| PATCH  | `/change-password` | Change password   | ✅   |
+| POST   | `/register`        | Create account    | X  |
+| POST   | `/login`           | Login             | X  |
+| POST   | `/refresh-token`   | Refresh JWT       | X  |
+| POST   | `/logout`          | Logout            | ✅ |
+| GET    | `/me`              | Get current user  | ✅ |
+| PATCH  | `/change-password` | Change password   | ✅ |
 
 ### Chat (`/api/chat`)
 | Method | Route                  | Description            |
@@ -179,7 +179,7 @@ Open: **http://localhost:3000**
 
 ---
 
-## 🧠 ML Architecture
+## ML Architecture
 
 ```
 User message → TF-IDF Vectorizer → Logistic Regression (Emotion)
@@ -201,7 +201,7 @@ emotion_pipe = pipeline("text-classification", model="j-hartmann/emotion-english
 
 ---
 
-## 🔐 Security Features
+##  Security Features
 - **bcrypt** password hashing (12 rounds)
 - **JWT** access tokens (7d) + refresh tokens (30d)
 - **httpOnly cookies** for token storage
@@ -212,7 +212,7 @@ emotion_pipe = pipeline("text-classification", model="j-hartmann/emotion-english
 
 ---
 
-## ⚡ Features Summary
+##  Features Summary
 | Feature | Stack |
 |---------|-------|
 | AI Chat | Google Gemini Pro API |
@@ -227,8 +227,6 @@ emotion_pipe = pipeline("text-classification", model="j-hartmann/emotion-english
 
 ---
 
-## 📞 Crisis Resources (built into app)
+##  Crisis Resources (built into app)
 - 🇮🇳 iCall: **9152987821**
-- 🇮🇳 Vandrevala Foundation: **1860-2662-345**
-- 🇮🇳 NIMHANS: **080-46110007**
-- 🇺🇸 Suicide & Crisis Lifeline: **988**
+*
