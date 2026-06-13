@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://ai-therapy-backend-b0xm.onrender.com/api',
+  baseURL: `${process.env.REACT_APP_API_URL}/api`
   withCredentials: true,
   timeout: 20000,
 });
