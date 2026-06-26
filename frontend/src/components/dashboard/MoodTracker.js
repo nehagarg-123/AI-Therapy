@@ -8,12 +8,12 @@ import api from '../../utils/api';
 import { format, parseISO } from 'date-fns';
 
 const EMOTION_COLOR = {
-  happy:   '#f59e0b',
-  sad:     '#3b82f6',
-  anxious: '#8b5cf6',
-  angry:   '#ef4444',
-  calm:    '#10b981',
-  neutral: '#6b7280',
+ happy:   '#f59e0b',
+  sad:     '#081b6f',
+  anxious: '#3a1296',
+  angry:   '#e07575',
+  calm:    '#3ca582',
+  neutral: '#47b94b',
   lonely:  '#6366f1',
   fear:    '#7c3aed',
   disgust: '#065f46',
@@ -262,37 +262,7 @@ export default function MoodTracker() {
       {/* Bottom row — Pie + Manual log */}
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, marginBottom:16 }}>
 
-        {/* Pie chart */}
-        <div style={{ background:'var(--card)', borderRadius:18, padding:'20px', border:'1px solid var(--border)' }}>
-          <div style={{ fontWeight:600, fontSize:15, color:'var(--text)', marginBottom:14 }}>Emotion Breakdown</div>
-          {pieData.length > 0 ? (
-            <>
-              <div style={{ display:'flex', justifyContent:'center' }}>
-                <PieChart width={160} height={140}>
-                  <Pie data={pieData} cx={75} cy={65} innerRadius={36} outerRadius={62} dataKey="value" paddingAngle={2}>
-                    {pieData.map((e,i) => <Cell key={i} fill={e.color}/>)}
-                  </Pie>
-                </PieChart>
-              </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:6, marginTop:8 }}>
-                {pieData.sort((a,b)=>b.value-a.value).slice(0,5).map((e,i) => (
-                  <div key={i} style={{ display:'flex', alignItems:'center', gap:8, fontSize:12 }}>
-                    <div style={{ width:10, height:10, borderRadius:'50%', background:e.color, flexShrink:0 }}/>
-                    <span style={{ flex:1, color:'var(--text)', textTransform:'capitalize' }}>
-                      {EMOTION_ICON[e.name]} {e.name}
-                    </span>
-                    <span style={{ color:'var(--text3)', fontWeight:600 }}>{e.value}x</span>
-                    <div style={{ width:50, height:4, borderRadius:2, background:'var(--border)', overflow:'hidden' }}>
-                      <div style={{ width:`${Math.min((e.value / Math.max(...pieData.map(d=>d.value)))*100,100)}%`, height:'100%', background:e.color }}/>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div style={{ textAlign:'center', color:'var(--text3)', fontSize:13, paddingTop:40 }}>No data yet</div>
-          )}
-        </div>
+       
 
         {/* Manual mood log */}
         <div style={{ background:'var(--card)', borderRadius:18, padding:'20px', border:'1px solid var(--border)' }}>
