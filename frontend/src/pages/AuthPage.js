@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
+
 export default function AuthPage() {
   const [mode, setMode]       = useState('landing'); // landing | login | register
   const [name, setName]       = useState('');
@@ -25,10 +26,10 @@ export default function AuthPage() {
     try {
       if (mode === 'login') {
         await login(email, password);
-        toast.success('Welcome back 🌿');
+        toast.success('Welcome back ');
       } else {
         await register(name, email, password);
-        toast.success('Welcome to MindEase 🌿');
+        toast.success('Welcome to MindEase');
       }
       navigate('/dashboard');
     } catch (err) {
@@ -37,12 +38,12 @@ export default function AuthPage() {
   };
 
   const features = [
-    { icon: '💬', title: 'AI Therapy Chat',      desc: 'Talk freely with an empathetic AI companion, anytime.' },
-    { icon: '🧠', title: 'Emotion Detection',    desc: 'ML model understands your emotional state in real time.' },
-    { icon: '📊', title: 'Mood Tracking',        desc: 'Visualize your emotional journey over days and weeks.' },
-    { icon: '🫁', title: 'Breathing Exercises',  desc: 'Guided box breathing to calm anxiety instantly.' },
-    { icon: '🧘', title: 'Anxiety Relief',       desc: 'Evidence-based CBT and mindfulness activities.' },
-    { icon: '🆘', title: 'Crisis Support',       desc: 'Emergency contact alerts for truly critical moments.' },
+    {  title: 'AI Therapy Chat',      desc: 'Talk freely with an empathetic AI companion, anytime.' },
+    {  title: 'Emotion Detection',    desc: 'ML model understands your emotional state in real time.' },
+    {  title: 'Mood Tracking',        desc: 'Visualize your emotional journey over days and weeks.' },
+    {  title: 'Breathing Exercises',  desc: 'Guided box breathing to calm anxiety instantly.' },
+    {  title: 'Anxiety Relief',       desc: 'Evidence-based CBT and mindfulness activities.' },
+    {  title: 'Crisis Support',       desc: 'Emergency contact alerts for truly critical moments.' },
   ];
 
   // ── LANDING PAGE ──────────────────────────────────────────────────────
@@ -66,8 +67,8 @@ export default function AuthPage() {
         {/* Navbar */}
         <nav style={{ padding:'18px 48px', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'1px solid var(--border)', background:'var(--bg2)', position:'sticky', top:0, zIndex:100 }}>
           <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <div style={{ width:38, height:38, borderRadius:10, background:'var(--accent)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>🌿</div>
-            <span style={{ fontFamily:'DM Serif Display', fontSize:20, color:'var(--text)' }}>MindEase</span>
+            <div style={{ width:38, height:38, borderRadius:10, background:'var(--accent)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>M</div>
+            <span style={{ fontFamily:'', fontSize:20, color:'var(--text)' }}>MindEase</span>
           </div>
           <div style={{ display:'flex', gap:12 }}>
             <button className="sec-btn" onClick={() => setMode('login')} style={{ padding:'9px 22px', borderRadius:50, border:'1px solid var(--border)', background:'transparent', color:'var(--text)', cursor:'pointer', fontSize:14, fontWeight:500 }}>
@@ -87,7 +88,7 @@ export default function AuthPage() {
               <span style={{ width:6, height:6, borderRadius:'50%', background:'var(--accent)', display:'inline-block' }}/>
               AI-Powered Mental Wellness
             </div>
-            <h1 style={{ fontFamily:'DM Serif Display', fontSize:52, lineHeight:1.15, color:'var(--text)', marginBottom:20 }}>
+            <h1 style={{ fontFamily:'', fontSize:52, lineHeight:1.15, color:'var(--text)', marginBottom:20 }}>
               Find Peace<br/>
               <span style={{ fontStyle:'italic', color:'var(--accent)' }}>of Mind</span>
             </h1>
@@ -98,15 +99,11 @@ export default function AuthPage() {
               <button className="hero-btn" onClick={() => setMode('register')} style={{ padding:'14px 32px', borderRadius:50, border:'none', background:'var(--accent)', color:'#fff', fontSize:15, fontWeight:600, cursor:'pointer', boxShadow:'0 8px 24px rgba(74,124,89,0.25)' }}>
                 Start Your Journey →
               </button>
-              <button className="sec-btn" onClick={() => setMode('login')} style={{ padding:'14px 32px', borderRadius:50, border:'1.5px solid var(--border)', background:'transparent', color:'var(--text)', fontSize:15, cursor:'pointer', fontWeight:500 }}>
-                Sign In
-              </button>
+              
             </div>
             {/* Trust badges */}
             <div style={{ display:'flex', gap:20, marginTop:36, flexWrap:'wrap' }}>
-              {[' Private & Secure', '-> Free to Start', ''].map((b,i) => (
-                <span key={i} style={{ fontSize:12, color:'var(--text3)', display:'flex', alignItems:'center', gap:4 }}>{b}</span>
-              ))}
+              
             </div>
           </div>
   
@@ -122,9 +119,9 @@ export default function AuthPage() {
 
     {/* Stat cards */}
     {[
-      { emoji: '😌', bg: '#d4edda', title: 'Feeling calmer',          sub: 'after just 1 week of daily check-ins', stat: '↑ 73%' },
-      { emoji: '💬', bg: '#fef3c7', title: 'Talked through anxiety',   sub: 'with an AI that actually listens',      stat: null  },
-      { emoji: '🧘', bg: '#ede9fe', title: 'Less anxious day by day',  sub: 'guided breathing & CBT exercises',      stat: null  },
+      {  title: 'Feeling calmer',          sub: 'after just 1 week of daily check-ins',  },
+      {  title: 'Talked through anxiety',   sub: 'with an AI that actually listens',      stat: null  },
+      {  title: 'Less anxious day by day',  sub: 'guided breathing & CBT exercises',      stat: null  },
     ].map((item, i) => (
       <div key={i} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 16, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
         <div style={{ width: 42, height: 42, borderRadius: '50%', background: item.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
@@ -157,7 +154,7 @@ export default function AuthPage() {
           <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:16 }}>
             {features.map((f,i) => (
               <div key={i} className="feat-card" style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:18, padding:'24px', cursor:'default' }}>
-                <div style={{ width:44, height:44, borderRadius:12, background:'var(--accent-lt)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, marginBottom:14 }}>{f.icon}</div>
+                
                 <div style={{ fontWeight:600, fontSize:15, color:'var(--text)', marginBottom:6 }}>{f.title}</div>
                 <div style={{ fontSize:13, color:'var(--text2)', lineHeight:1.65 }}>{f.desc}</div>
               </div>
@@ -167,8 +164,8 @@ export default function AuthPage() {
 
         {/* CTA */}
         <section style={{ background:'var(--accent)', margin:'0 48px 60px', borderRadius:24, padding:'48px', textAlign:'center', maxWidth:1004, marginLeft:'auto', marginRight:'auto' }}>
-          <h2 style={{ fontFamily:'DM Serif Display', fontSize:34, color:'#fff', marginBottom:12 }}>Ready to start your wellness journey?</h2>
-          <p style={{ color:'rgba(255,255,255,.8)', fontSize:15, marginBottom:28 }}>Join thousands who are learning to understand themselves better</p>
+          <h2 style={{ fontFamily:'', fontSize:34, color:'#fff', marginBottom:12 }}>Ready to start your wellness journey?</h2>
+          <p style={{ color:'rgba(255, 255, 255, 0.81)', fontSize:15, marginBottom:28 }}>Join thousands who are learning to understand themselves better</p>
           <button className="hero-btn" onClick={() => setMode('register')} style={{ padding:'14px 36px', borderRadius:50, border:'none', background:'#fff', color:'var(--accent)', fontSize:15, fontWeight:700, cursor:'pointer' }}>
             Get Started — It's Free
           </button>
@@ -201,8 +198,8 @@ export default function AuthPage() {
 
         {/* Logo */}
         <div style={{ display:'flex', alignItems:'center', gap:10, zIndex:1 }}>
-          <div style={{ width:40, height:40, borderRadius:10, background:'rgba(255,255,255,.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22 }}>🌿</div>
-          <span style={{ fontFamily:'DM Serif Display', fontSize:22, color:'#fff' }}>MindEase</span>
+          <div style={{ width:40, height:40, borderRadius:10, background:'rgba(255,255,255,.2)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22 }}>M</div>
+          <span style={{ fontFamily:'', fontSize:22, color:'#fff' }}>MindEase</span>
         </div>
 
         {/* Center content */}
@@ -210,7 +207,7 @@ export default function AuthPage() {
           <h2 style={{ fontFamily:'DM Serif Display', fontSize:38, color:'#fff', lineHeight:1.2, marginBottom:16 }}>
             Find Peace<br/><em>of Mind</em>
           </h2>
-          <p style={{ color:'rgba(255,255,255,.85)', fontSize:15, lineHeight:1.75, marginBottom:32, maxWidth:340 }}>
+          <p style={{ color:'rgb(255, 255, 255)', fontSize:15, lineHeight:1.75, marginBottom:32, maxWidth:340 }}>
             Experience a new way of emotional support. Our AI companion is here to listen, understand, and guide you through life's journey.
           </p>
           {/* Testimonial */}
