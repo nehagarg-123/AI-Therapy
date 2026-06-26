@@ -119,9 +119,9 @@ export default function AuthPage() {
 
     {/* Stat cards */}
     {[
-      {  title: 'Feeling calmer',          sub: 'after just 1 week of daily check-ins',  },
-      {  title: 'Talked through anxiety',   sub: 'with an AI that actually listens',      stat: null  },
-      {  title: 'Less anxious day by day',  sub: 'guided breathing & CBT exercises',      stat: null  },
+      {  title: 'Feeling calmer',          sub: 'after just 1 week of daily check-ins' },
+      {  title: 'Talked through anxiety',   sub: 'with an AI that actually listens',  stat: null  },
+      {  title: 'Less anxious day by day',  sub: 'guided breathing & CBT exercises',  stat: null  },
     ].map((item, i) => (
       <div key={i} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 16, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
         <div style={{ width: 42, height: 42, borderRadius: '50%', background: item.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
