@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     await logout();
-    toast.success('Take care of yourself 🌿');
+    toast.success('Take care of yourself ');
     navigate('/');
   };
 
@@ -54,9 +54,9 @@ export default function Dashboard() {
 
         {/* Logo */}
         <div style={{ display:'flex', alignItems:'center', gap:10, padding:'0 8px', marginBottom:32 }}>
-          <div style={{ width:38, height:38, borderRadius:10, background:'var(--accent)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>🌿</div>
+          <div style={{ width:38, height:38, borderRadius:10, background:'var(--accent)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>M</div>
           <div>
-            <div style={{ fontFamily:'DM Serif Display', fontSize:18, color:'var(--text)', lineHeight:1 }}>MindEase</div>
+            <div style={{ fontFamily:'', fontSize:18, color:'var(--text)', lineHeight:1 }}>MindEase</div>
             <div style={{ fontSize:10, color:'var(--text3)' }}>AI Wellness</div>
           </div>
         </div>
@@ -88,10 +88,7 @@ export default function Dashboard() {
             <div style={{ fontSize:10, color:'var(--text3)', marginBottom:3, fontWeight:500, textTransform:'uppercase', letterSpacing:'0.05em' }}>Current Mood</div>
             <div style={{ fontSize:13, fontWeight:600, color:'var(--accent)' }}>{EMOTION_META[currentEmotion] || '○ Neutral'}</div>
           </div>
-          <div style={{ padding:'10px 12px', borderRadius:12, background:'var(--bg3)', marginBottom:12, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-            <span style={{ fontSize:12, color:'var(--text2)' }}>Daily streak</span>
-            <span style={{ fontWeight:700, color:'#f59e0b', fontSize:14 }}>🔥 {user?.streakDays || 1}d</span>
-          </div>
+          
           <div style={{ display:'flex', alignItems:'center', gap:8, padding:'0 4px', marginBottom:12 }}>
             <div style={{ width:36, height:36, borderRadius:10, background:'var(--accent-lt)', border:'1.5px solid var(--accent)', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, color:'var(--accent)', fontSize:15, flexShrink:0 }}>
               {user?.name?.[0]?.toUpperCase() || 'U'}
@@ -132,13 +129,6 @@ function HomePage({ user, onNavigate }) {
   const hour     = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
-  const quickActions = [
-    { icon:'💬', title:'Open Chat',           desc:'Talk to your AI companion',         tab:'chat',       color:'#4a7c59' },
-    { icon:'🫁', title:'Breathing Exercise',  desc:'Calm your mind in 5 minutes',       tab:'breathing',  color:'#3b82f6' },
-    { icon:'📊', title:'Track Your Mood',     desc:'Log and visualize your emotions',   tab:'mood',       color:'#8b5cf6' },
-    { icon:'🧘', title:'Anxiety Relief',      desc:'CBT & mindfulness activities',      tab:'activities', color:'#f59e0b' },
-  ];
-
   const tips = [
     "Taking 5 deep breaths can reduce cortisol levels significantly.",
     "Writing 3 things you're grateful for each day rewires your brain.",
@@ -147,51 +137,80 @@ function HomePage({ user, onNavigate }) {
     "Talking about your feelings, even to an AI, helps process emotions.",
   ];
 
+  const quickActions = [
+    { icon:'💬', title:'Open Chat',          desc:'Talk to your AI companion anytime, no judgment.',        tab:'chat',       accentColor:'#5F9D6E', bgColor:'#1E2D22', borderColor:'#334238', tagLabel:'AI Companion',    tagColor:'#8BCB8F', tagBg:'rgba(95,157,110,0.15)'  },
+    { icon:'🫁', title:'Breathing Exercise', desc:'Calm your nervous system with box breathing.',           tab:'breathing',  accentColor:'#3b82f6', bgColor:'#1A2535', borderColor:'#1E3050', tagLabel:'5 min exercise',  tagColor:'#93c5fd', tagBg:'rgba(59,130,246,0.15)'  },
+    { icon:'📊', title:'Track Your Mood',    desc:'Log and visualize your emotional patterns over time.',   tab:'mood',       accentColor:'#8b5cf6', bgColor:'#261E35', borderColor:'#33265A', tagLabel:'Insights',        tagColor:'#c4b5fd', tagBg:'rgba(139,92,246,0.15)'  },
+    { icon:'🧘', title:'Anxiety Relief',     desc:'Evidence-based activities to ease anxiety fast.',        tab:'activities', accentColor:'#f59e0b', bgColor:'#2D2218', borderColor:'#4A3520', tagLabel:'CBT & mindfulness',tagColor:'#fcd34d', tagBg:'rgba(245,158,11,0.15)'  },
+  ];
+
   return (
     <div style={{ height:'100%', overflowY:'auto', padding:'32px', animation:'fadeUp .5s ease both' }}>
       <div style={{ marginBottom:28 }}>
-        <h1 style={{ fontFamily:'DM Serif Display', fontSize:30, color:'var(--text)', marginBottom:4 }}>
+        <h1 style={{ fontFamily:'DM Serif Display', fontSize:30, color:'var(--text)', marginBottom:6 }}>
           {greeting}, {user?.name?.split(' ')[0]} 👋
         </h1>
-        <p style={{ fontSize:14, color:'var(--text2)' }}>How are you feeling today? Choose where you'd like to start.</p>
+        <p style={{ fontSize:14, color:'var(--text3)' }}>How are you feeling today? Choose where you'd like to start.</p>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:14, marginBottom:24 }}>
-        {quickActions.map((a,i) => (
-          <button key={i} onClick={()=>onNavigate(a.tab)} style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:18, padding:'22px', cursor:'pointer', textAlign:'left', transition:'all .2s', borderLeft:`4px solid ${a.color}` }}
-            onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-3px)';e.currentTarget.style.boxShadow='var(--shadow-lg)';}}
-            onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)';e.currentTarget.style.boxShadow='none';}}
+      {/* Quick Action Cards */}
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:16 }}>
+        {quickActions.map((a, i) => (
+          <button key={i} onClick={() => onNavigate(a.tab)}
+            style={{
+              background: a.bgColor,
+              border: `1px solid ${a.borderColor}`,
+              borderRadius: 20,
+              padding: '24px',
+              cursor: 'pointer',
+              textAlign: 'left',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'transform .2s, box-shadow .2s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 8px 24px rgba(0,0,0,0.3)`; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)';    e.currentTarget.style.boxShadow = 'none'; }}
           >
-            <div style={{ fontSize:28, marginBottom:10 }}>{a.icon}</div>
-            <div style={{ fontSize:15, fontWeight:600, color:'var(--text)', marginBottom:4 }}>{a.title}</div>
-            <div style={{ fontSize:12, color:'var(--text2)' }}>{a.desc}</div>
+            {/* Left accent bar */}
+            <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background: a.accentColor, borderRadius:'20px 0 0 20px' }}/>
+
+            {/* Tag */}
+            <div style={{ display:'inline-block', fontSize:10, padding:'3px 9px', borderRadius:50, fontWeight:600, marginBottom:12, background: a.tagBg, color: a.tagColor }}>
+              {a.tagLabel}
+            </div>
+
+            {/* Icon */}
+            <div style={{ width:48, height:48, borderRadius:14, background:`${a.accentColor}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, marginBottom:14 }}>
+              {a.icon}
+            </div>
+
+            <div style={{ fontSize:15, fontWeight:600, color:'var(--text)', marginBottom:5 }}>{a.title}</div>
+            <div style={{ fontSize:12, color:'var(--text3)', lineHeight:1.5 }}>{a.desc}</div>
+
+            {/* Arrow */}
+            <span style={{ position:'absolute', top:22, right:20, fontSize:18, opacity:0.2, color:'var(--text)' }}>→</span>
           </button>
         ))}
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
-        <div style={{ background:'var(--accent-lt)', border:'1px solid var(--border)', borderRadius:18, padding:'20px' }}>
-          <div style={{ fontSize:11, fontWeight:600, color:'var(--accent)', marginBottom:10, textTransform:'uppercase', letterSpacing:'0.06em' }}>💡 Daily Tip</div>
-          <p style={{ fontSize:13, color:'var(--text)', lineHeight:1.7 }}>{tips[new Date().getDate() % tips.length]}</p>
+      {/* Daily Tip */}
+      <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:18, padding:'20px 22px', marginBottom:14, display:'flex', gap:14, alignItems:'flex-start' }}>
+        <div style={{ width:38, height:38, borderRadius:11, background:'rgba(139,203,143,0.15)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0, marginTop:1 }}>
+          💡
         </div>
-        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:18, padding:'20px' }}>
-          <div style={{ fontSize:11, fontWeight:600, color:'var(--text3)', marginBottom:14, textTransform:'uppercase', letterSpacing:'0.06em' }}>Your Progress</div>
-          {[
-            { label:'Total sessions', value: user?.totalSessions || 0 },
-            { label:'Day streak',     value: `🔥 ${user?.streakDays || 1}` },
-            { label:'Member since',   value: user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN',{month:'short',year:'numeric'}) : '—' },
-          ].map((s,i) => (
-            <div key={i} style={{ display:'flex', justifyContent:'space-between', padding:'7px 0', borderBottom:i<2?'1px solid var(--border)':'none' }}>
-              <span style={{ fontSize:12, color:'var(--text2)' }}>{s.label}</span>
-              <span style={{ fontSize:13, fontWeight:600, color:'var(--text)' }}>{s.value}</span>
-            </div>
-          ))}
+        <div>
+          <div style={{ fontSize:10, fontWeight:700, color:'var(--accent)', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:5 }}>Daily Tip</div>
+          <p style={{ fontSize:13, color:'var(--text)', lineHeight:1.7 }}>{tips[new Date().getDate() % tips.length]}</p>
         </div>
       </div>
 
-      <div style={{ marginTop:20, padding:'12px 18px', background:'var(--bg3)', border:'1px solid var(--border)', borderRadius:12, fontSize:12, color:'var(--text3)', display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
-        <span>In crisis? Reach out immediately</span>
-        <span style={{ fontWeight:600, color:'var(--danger)' }}>iCall: 9152987821 · Vandrevala: 1860-2662-345</span>
+      {/* Crisis bar */}
+      <div style={{ background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', borderRadius:12, padding:'12px 18px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:8 }}>
+        <span style={{ fontSize:12, color:'var(--text3)', display:'flex', alignItems:'center', gap:7 }}>
+          <span style={{ width:7, height:7, borderRadius:'50%', background:'#ef4444', display:'inline-block', flexShrink:0 }}/>
+          In crisis? Reach out immediately
+        </span>
+        <span style={{ fontSize:12, fontWeight:600, color:'#f87171' }}>iCall: 9152987821 · Vandrevala: 1860-2662-345</span>
       </div>
     </div>
   );
@@ -236,12 +255,7 @@ function ProfilePanel({ user, updateUser }) {
           </div>
         </div>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-          {[['Member Since', new Date(user?.createdAt||Date.now()).toLocaleDateString('en-IN',{month:'long',year:'numeric'})],['Sessions', user?.totalSessions||0],['Streak',`🔥 ${user?.streakDays||1} days`],['Plan','Free']].map(([l,v])=>(
-            <div key={l} style={{ background:'var(--bg3)', borderRadius:10, padding:'12px 14px' }}>
-              <div style={{ fontSize:10, color:'var(--text3)', marginBottom:3, textTransform:'uppercase' }}>{l}</div>
-              <div style={{ fontSize:14, fontWeight:500, color:'var(--text)' }}>{v}</div>
-            </div>
-          ))}
+
         </div>
       </div>
       <div style={{ background:'var(--card)', borderRadius:18, padding:'24px', border:'1px solid var(--border)', marginBottom:16 }}>
