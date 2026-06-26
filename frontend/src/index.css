@@ -2,13 +2,13 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:         #f0ede8;
+  --bg:         #dbdad7;
   --bg2:        #ffffff;
   --bg3:        #f7f4f0;
   --card:       #ffffff;
-  --text:       #1a1714;
-  --text2:      #6b6560;
-  --text3:      #a09890;
+  --text:       #24201c;
+  --text2:      #a19495;
+  --text3:      #a86d33;
   --accent:     #4a7c59;
   --accent-dk:  #2d5a3e;
   --accent-lt:  #e8f2ec;
@@ -30,25 +30,25 @@
 }
 
 .dark {
-  --bg:        #0f1210;
-  --bg2:       #181c17;
-  --bg3:       #111410;
-  --card:      #1e231c;
-  --text:      #e8e4dc;
-  --text2:     #9a9890;
-  --text3:     #605e5a;
-  --accent:    #5a9e6f;
-  --accent-dk: #7ec491;
+  --bg:        #525954;
+  --bg2:       #3a7aa8c7;
+  --bg3:       #475081;
+  --card:      #6e85adb2;
+  --text:      #ebe8e0;
+  --text2:     #e6e3db;
+  --text3:     #f4f0e7;
+  --accent:    #9facc9;
+  --accent-dk: #298990;
   --accent-lt: #192a1e;
-  --accent-mid:#3d7050;
+  --accent-mid:#3d6a70;
   --danger:    #e05545;
   --danger-lt: #2a1614;
   --warn:      #e8922a;
   --warn-lt:   #2a1e0a;
   --info:      #60a5fa;
   --info-lt:   #1e2a3a;
-  --border:    #282e26;
-  --border2:   #343830;
+  --border:    #262e2c;
+  --border2:   #75839c;
   --shadow:    0 2px 20px rgba(0,0,0,0.45);
   --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
 }
