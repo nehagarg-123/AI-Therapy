@@ -198,8 +198,8 @@ export default function MoodTracker() {
         <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10, marginBottom:20 }}>
           {[
            
-            { label:'Dominant Mood',   value: `${EMOTION_ICON[dominantEm]||'○'} ${dominantEm}`, color: EMOTION_COLOR[dominantEm] }
-          
+            { label:'Dominant Mood',   value: `${EMOTION_ICON[dominantEm]||'○'} ${dominantEm}`, color: EMOTION_COLOR[dominantEm] },
+            { label:'Crisis Flags',    value: analytics.crisisCount > 0 ? `⚠ ${analytics.crisisCount}` : '✓ Clear', color: analytics.crisisCount > 0 ? 'var(--danger)' : 'var(--accent)' },
           ].map((c,i) => (
             <div key={i} style={{ background:'var(--bg3)', borderRadius:14, padding:'14px 16px', border:'1px solid var(--border)', textAlign:'center' }}>
               <div style={{ fontSize:18, fontWeight:700, color: c.color || 'var(--accent)', marginBottom:2, textTransform:'capitalize' }}>{c.value}</div>
