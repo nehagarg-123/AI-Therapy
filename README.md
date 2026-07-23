@@ -103,7 +103,15 @@ PORT=5000
 MONGODB_URI=mongodb://localhost:27017/mindease
 JWT_SECRET=replace_with_random_64char_string
 JWT_REFRESH_SECRET=replace_with_another_random_string
-GEMINI_API_KEY=your_gemini_key_from_aistudio.google.com
+GROQ_API_KEY=go to the groq site and copy the groq api key
+
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=
+EMAIL_USER=
+EMAIL_PASS=
+
+
+
 ML_SERVICE_URL=http://localhost:8000
 CLIENT_URL=http://localhost:3000
 ```
