@@ -68,9 +68,7 @@ exports.login = async (req, res, next) => {
     if (!user || !(await user.comparePassword(password)))
       return next(new AppError('Incorrect email or password', 401));
 
-    user.updateStreak();
-    user.totalSessions += 1;
-    await user.save({ validateBeforeSave: false });
+   
 
     sendTokens(user, 200, res);
   } catch (err) { next(err); }
