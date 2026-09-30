@@ -4,8 +4,6 @@ const messageSchema = new mongoose.Schema({
   role:    { type: String, enum: ['user','assistant'], required: true },
   content: { type: String, required: true, maxlength: 2000 },
   emotion: { type: String, enum: ['happy','sad','anxious','angry','calm','neutral','fear','disgust','surprise'], default: 'neutral' },
-  emotionScore:    { type: Number, default: 0 },  // ML confidence 0-1
-  sentimentScore:  { type: Number, default: 0 },  // -1 to 1
   isCrisis:        { type: Boolean, default: false },
   crisisScore:     { type: Number, default: 0 },
   timestamp:       { type: Date, default: Date.now },
