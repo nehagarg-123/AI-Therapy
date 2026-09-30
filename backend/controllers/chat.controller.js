@@ -1,4 +1,4 @@
-const axios     = require('axios');
+const axios     = require('axios');// used to call the other server that is python ml service
 const Groq      = require('groq-sdk');
 const Session   = require('../models/Session.model');
 const MoodEntry = require('../models/MoodEntry.model');
@@ -56,9 +56,9 @@ STRICT RULES:
 
 const CRISIS_HELPLINE = "\n\nPlease reach out - iCall India: 9152987821 (free, confidential)";
 
-// ==========================================
-// 1. KEYWORD OVERRIDE
-// ==========================================
+
+// KEYWORD OVERRIDE
+
 const CRISIS_PHRASES_HIGH = [
   "kill myself", "killing myself",
   "end my life", "ending my life",
@@ -153,7 +153,7 @@ function applyKeywordOverride(text, mlResult) {
   for (const phrase of CRISIS_PHRASES_HIGH) {
     if (t.includes(phrase)) {
       console.log(`🚨 Crisis override: "${phrase}"`);
-      return { ...mlResult, emotion: "sad", confidence: Math.max(mlResult.confidence, 0.95), isCrisis: true, crisisScore: 1.0 };
+      return { ...mlResult, emotion: "sad", isCrisis: true, crisisScore: 1.0 };
     }
   }
 
@@ -161,14 +161,14 @@ function applyKeywordOverride(text, mlResult) {
   if (lowHits.length > 0) {
     const score = Math.min(0.5 + lowHits.length * 0.2, 1.0);
     console.log(`⚠️ Low crisis override: ${lowHits}`);
-    return { ...mlResult, emotion: "sad", confidence: Math.max(mlResult.confidence, 0.85), isCrisis: score > 0.5, crisisScore: Math.round(score * 1000) / 1000 };
+    return { ...mlResult, emotion: "sad",  isCrisis: score > 0.5, crisisScore: Math.round(score * 1000) / 1000 };
   }
 
   for (const rule of EMOTION_OVERRIDE_RULES) {
     for (const phrase of rule.phrases) {
       if (t.includes(phrase)) {
         console.log(`🎯 Emotion override: "${mlResult.emotion}" → "${rule.emotion}" (matched: "${phrase}")`);
-        return { ...mlResult, emotion: rule.emotion, confidence: Math.max(mlResult.confidence, rule.confidence) };
+        return { ...mlResult, emotion: rule.emotion };
       }
     }
   }
@@ -176,16 +176,14 @@ function applyKeywordOverride(text, mlResult) {
   return mlResult;
 }
 
-// ==========================================
-// 2. PYTHON ML SERVICE
-// ==========================================
+
+//PYTHON ML SERVICE
+
 async function getPythonMLAnalysis(text) {
   try {
     const response = await axios.post(`${ML_SERVICE_URL}/predict`, { text }, { timeout: 8000 });
     return {
       emotion:     response.data.emotion,
-      confidence:  response.data.confidence,
-      sentiment:   response.data.sentiment,
       isCrisis:    response.data.isCrisis,
       crisisScore: response.data.crisisScore,
       suggestions: response.data.suggestions,
@@ -193,7 +191,7 @@ async function getPythonMLAnalysis(text) {
   } catch (err) {
     console.error("ML Service unreachable:", err.message);
     return {
-      emotion: "neutral", confidence: 0.5, sentiment: 0.0,
+      emotion: "neutral",
       isCrisis: false, crisisScore: 0.0,
       suggestions: [
         "Take 5 deep breaths right now",
@@ -204,9 +202,9 @@ async function getPythonMLAnalysis(text) {
   }
 }
 
-// ==========================================
-// 3. EMERGENCY EMAIL  (replaces SMS)
-// ==========================================
+
+// EMERGENCY EMAIL 
+
 async function sendEmergencyNotification(user, message) {
   if (!user?.emergencyContact) {
     console.log("No emergency contact saved for this user.");
@@ -267,9 +265,9 @@ async function sendEmergencyNotification(user, message) {
   }
 }
 
-// ==========================================
-// 4. FORMAT HELPER
-// ==========================================
+
+//FORMAT HELPER
+
 function formatAsShortLines(text) {
   if (!text) return text;
   if (text.includes("\n\n")) {
@@ -279,9 +277,9 @@ function formatAsShortLines(text) {
   return sentences.join("\n\n");
 }
 
-// ==========================================
-// 5. CONTEXTUAL EMOTION
-// ==========================================
+
+//CONTEXTUAL EMOTION
+
 function deriveContextualEmotion(savedMessages, currentMLEmotion) {
   const recentEmotions = savedMessages
     .filter(m => m.role === "user" && m.emotion)
@@ -299,9 +297,9 @@ function deriveContextualEmotion(savedMessages, currentMLEmotion) {
   return dominant;
 }
 
-// ==========================================
-// 6. CONTEXT-AWARE ACTIVITIES
-// ==========================================
+
+//CONTEXT-AWARE ACTIVITIES
+
 async function getContextualActivities(userMessages, contextualEmotion, mlFallback) {
   try {
     if (!process.env.GROQ_API_KEY) throw new Error("No GROQ_API_KEY");
@@ -340,9 +338,9 @@ Rules:
   }
 }
 
-// ==========================================
-// 7. GROQ CHAT
-// ==========================================
+
+//GROQ CHAT
+
 async function callGroq(messages, currentMessage, emotion) {
   if (!process.env.GROQ_API_KEY) throw new Error("No GROQ_API_KEY set in environment");
 
@@ -364,9 +362,9 @@ async function callGroq(messages, currentMessage, emotion) {
   return formatAsShortLines(raw.trim().replace(/^MindEase:\s*/i, "").trim());
 }
 
-// ==========================================
-// 8. SMART FALLBACK
-// ==========================================
+
+//SMART FALLBACK
+
 function smartFallback(messages, currentMessage, emotion) {
   const t   = currentMessage.toLowerCase();
   const all = messages.filter(m => m.role === "user").map(m => m.content.toLowerCase()).join(" ");
@@ -394,9 +392,9 @@ function smartFallback(messages, currentMessage, emotion) {
   return responses[emotion] || responses.neutral;
 }
 
-// ==========================================
-// 9. CONTROLLERS
-// ==========================================
+
+//CONTROLLERS
+
 
 exports.getOrCreateSession = async (req, res, next) => {
   try {
@@ -479,7 +477,6 @@ exports.sendMessage = async (req, res, next) => {
     // STEP 9: Save MoodEntry
     await MoodEntry.create({
       user: req.user._id, emotion: contextualEmotion,
-      mlScore: mlResult.confidence, sentiment: mlResult.sentiment,
       isCrisis: mlResult.isCrisis, source: "chat",
     });
 
@@ -490,8 +487,6 @@ exports.sendMessage = async (req, res, next) => {
         reply:      aiReply,
         mlAnalysis: {
           emotion:     contextualEmotion,
-          confidence:  mlResult.confidence,
-          sentiment:   mlResult.sentiment,
           isCrisis:    mlResult.isCrisis,
           crisisScore: mlResult.crisisScore,
         },
