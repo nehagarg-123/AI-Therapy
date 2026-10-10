@@ -64,6 +64,7 @@ mindease/
 - Python 3.9+
 - MongoDB (local or Atlas)
 - Gemini API key (free at aistudio.google.com)
+- Docker Desktop (used to run Redis
 
 ---
 
@@ -114,6 +115,7 @@ EMAIL_PASS=
 
 ML_SERVICE_URL=http://localhost:8000
 CLIENT_URL=http://localhost:3000
+REDIS_URL=redis://127.0.0.1:6379
 ```
 
 ---
@@ -232,7 +234,7 @@ emotion_pipe = pipeline("text-classification", model="j-hartmann/emotion-english
 | Anxiety Activities | CBT/EMDR-based content |
 | Authentication | JWT + Refresh tokens + bcrypt |
 | Dark/Light Mode | CSS variables + React context |
-
+| Caching	Redis (ioredis), per-user keys, TTL + invalidation on write |
 ---
 
 ##  Crisis Resources (built into app)
