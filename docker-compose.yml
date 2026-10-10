@@ -9,8 +9,11 @@ services:
       - "5000:5000"
     env_file:
       - ./backend/.env
+    environment:
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - ml-service
+      - redis
     restart: unless-stopped
 
   frontend:
@@ -30,3 +33,15 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: ai-therapy-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  redis-data:
