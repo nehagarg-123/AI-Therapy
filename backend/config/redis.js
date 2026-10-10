@@ -3,6 +3,7 @@ const Redis = require('ioredis');
 let client = null;
 
 if (process.env.REDIS_URL) {
+  // A rediss:// URL (e.g. Upstash) enables TLS automatically
   client = new Redis(process.env.REDIS_URL, {
     maxRetriesPerRequest: 1,
     enableOfflineQueue: false, // fail fast when Redis is down instead of queueing commands
@@ -10,7 +11,17 @@ if (process.env.REDIS_URL) {
   });
 
   client.on('ready', () => console.log('Redis connected'));
-  client.on('error', (err) => console.error('Redis error:', err.message));
+
+  // Log at most once every 10 seconds so the console is not flooded
+  let lastErrorLog = 0;
+  client.on('error', (err) => {
+    const now = Date.now();
+    if (now - lastErrorLog > 10000) {
+      console.error('Redis error:', err.code || err.message || err);
+      lastErrorLog = now;
+    }
+  });
+
   client.on('end', () => console.warn('Redis connection closed'));
 } else {
   console.warn('REDIS_URL not set - caching is disabled');
