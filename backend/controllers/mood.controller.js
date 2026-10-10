@@ -1,23 +1,25 @@
 const MoodEntry = require('../models/MoodEntry.model');
 const { AppError } = require('../middleware/error.middleware');
+const { clearUserCache } = require('../middleware/cache.middleware'); 
 
-// ── LOG MOOD MANUALLY ─────────────────────────────────────────────────────
+// LOG MOOD MANUALLY 
 exports.logMood = async (req, res, next) => {
   try {
     const { emotion, score, note, triggers } = req.body;
     if (!emotion) return next(new AppError('Emotion is required', 400));
 
     const entry = await MoodEntry.create({
-      user: req.user._id,
+      user: req.user._id,// protect middleware already identified the logged-in user
       emotion, score, note,
       triggers: triggers || [],
       source: 'manual',
     });
+    await clearUserCache(req.user._id);
     res.status(201).json({ success: true, data: { entry } });
   } catch (err) { next(err); }
 };
 
-// ── GET MOOD HISTORY ──────────────────────────────────────────────────────
+// GET MOOD HISTORY 
 exports.getMoodHistory = async (req, res, next) => {
   try {
     const { days = 30, limit = 100 } = req.query;
@@ -26,16 +28,17 @@ exports.getMoodHistory = async (req, res, next) => {
 
     const entries = await MoodEntry.find({
       user: req.user._id,
-      date: { $gte: since },
-    }).sort('-date').limit(parseInt(limit));
+      date: { $gte: since },//$gte means greater than or equal to 
+    }).sort('-date').limit(parseInt(limit));// sort newest  mood first & if user has looged the mood 100 but if the limit is 20 then it will shows latest 20
 
     res.json({ success: true, data: { entries, count: entries.length } });
   } catch (err) { next(err); }
 };
 
-// ── MOOD ANALYTICS ────────────────────────────────────────────────────────
+// MOOD ANALYTICS ..generating the statistics from the user's mood history
 exports.getMoodAnalytics = async (req, res, next) => {
   try {
+    // fetching the mood within the requested time period
     const { days = 30 } = req.query;
     const since = new Date();
     since.setDate(since.getDate() - parseInt(days));
@@ -46,7 +49,7 @@ exports.getMoodAnalytics = async (req, res, next) => {
     const emotionFreq = entries.reduce((acc, e) => {
       acc[e.emotion] = (acc[e.emotion]||0) + 1;
       return acc;
-    }, {});
+    }, {});//how many times each emotion  occured
 
     // Average sentiment
     const avgSentiment = entries.length
@@ -62,7 +65,7 @@ exports.getMoodAnalytics = async (req, res, next) => {
       const day = e.date.toISOString().slice(0,10);
       if (!dailyTrend[day]) dailyTrend[day] = [];
       dailyTrend[day].push(e.emotion);
-    });
+    });// grouping the moods by day further frontend used to generate the pie chart
 
     const dominantEmotion = Object.entries(emotionFreq).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'neutral';
 
